@@ -29,5 +29,6 @@ def get_last_k_bits(k, bytes):
     kMask = 2 ** k - 1
     bytes = hashlib.sha256(bytes)
     bits = int(bytes.hexdigest(), 16)
-    return (bits & kMask)
+    res = bits & kMask
+    return res
 
