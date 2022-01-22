@@ -1,6 +1,7 @@
 import hashlib
 import os
-
+import string
+import random
 
 def hash_collision(k):
     if not isinstance(k, int):
@@ -17,18 +18,21 @@ def hash_collision(k):
     while(True):
         x = get_random_bytes(INT_BYTE_LEN)
         y = get_random_bytes(INT_BYTE_LEN)
-        if get_last_k_bits(INT_BYTE_LEN, x) == get_last_k_bits(INT_BYTE_LEN, y):
-            return (x, y)
-    # return (b'\x00', b'\x00')
+        for i in range(k):
+            if x[-1 - i] != y[-1 - i]:
+                break
+            if i >= k - 1:
+                return (x, y)
+
+    return (b'\x00', b'\x00')
 
 
 def get_random_bytes(byte):
-    return os.urandom(byte)
+    let = string.ascii_letters
+    x = "".join(random.choice(let) for i in range(byte))
+    x = x.encode('utf-8')
+    x = hashlib.sha256(x).hexdigest()
+    x = bin(int(x, 16))
+    return x
 
-def get_last_k_bits(k, bytes):
-    kMask = 2 ** k - 1
-    bytes = hashlib.sha256(bytes)
-    bits = int(bytes.hexdigest(), 16)
-    res = bits & kMask
-    return res
 
