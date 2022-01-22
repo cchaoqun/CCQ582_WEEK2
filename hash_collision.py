@@ -18,7 +18,7 @@ def hash_collision(k):
     while(True):
         x = get_random_bytes(INT_BYTE_LEN)
         y = get_random_bytes(INT_BYTE_LEN)
-        if get_last_k_bits(INT_BYTE_LEN, x) == get_last_k_bits(INT_BYTE_LEN, y):
+        if get_last_k_bits(k, x) == get_last_k_bits(k, y):
             return (x, y)
     # return (b'\x00', b'\x00')
 
